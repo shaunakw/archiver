@@ -1,0 +1,28 @@
+{
+  "name": "archiver",
+  "version": "1.0.0",
+  "description": "Securely archive deleted messages in Discord.",
+  "scripts": {
+    "start": "tsc && node build/bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaunakw/archiver.git"
+  },
+  "author": "Shaunak Warty",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shaunakw/archiver/issues"
+  },
+  "homepage": "https://github.com/shaunakw/archiver#readme",
+  "dependencies": {
+    "discord.js": "^13.2.0",
+    "firebase-admin": "^9.12.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "typescript": "^4.4.3"
+  }
+}
