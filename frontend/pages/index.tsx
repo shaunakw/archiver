@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Navbar from 'components/Navbar';
 
 const Home: NextPage = () => {
   return (
@@ -8,7 +9,7 @@ const Home: NextPage = () => {
         <title>Archiver Vault</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Home</h1>
+      <Navbar />
     </>
   );
 };
