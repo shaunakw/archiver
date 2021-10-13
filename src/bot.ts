@@ -1,10 +1,14 @@
 import { Client, Intents } from 'discord.js';
+import * as dotenv from 'dotenv';
 import * as firebase from './firebase';
-import { token } from './config.json';
 
+dotenv.config();
 firebase.init();
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+    partials: ['MESSAGE'],
+});
 
 client.once('ready', () => {
     console.log(`${client.user?.tag} ready!`);
@@ -14,4 +18,4 @@ client.on('messageDelete', (msg) => {
     firebase.uploadMessage(msg);
 });
 
-client.login(token);
+client.login(process.env.DISCORD_TOKEN);
