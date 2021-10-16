@@ -1,10 +1,8 @@
 import { GetServerSideProps, NextPage } from 'next';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import CodeInput from 'react-verification-code-input';
 import { useState } from 'react';
 import Navbar from 'components/Navbar';
-import styles from 'styles/Archive.module.css';
 
 type ArchiveProps = {
   name: string,
@@ -59,38 +57,32 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
     }
   }
 
-  return (
-    <>
-      <Head>
-        <title>Archiver Bot</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Navbar />
-      {messages ? (
-        <div className={styles.messages}>
-          {messages.map((msg) => (
-            <div key={msg.id} className="p-3">
-              <p><b>{msg.author}</b> {new Date(msg.timestamp).toString()}</p>
-              <p>{msg.content}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className={`d-flex flex-column align-items-center ${styles.login}`}>
-          <h1>Enter Code</h1>
-          <CodeInput
-            loading={state === 'loading'}
-            fieldWidth={48}
-            fieldHeight={44}
-            onComplete={submitCode}
-            className="mt-4" />
-          {state == 'error' && (
-            <p className="text-danger">Invalid Code.</p>
-          )}
-        </div>
-      )}
-    </>
-  );
+  return <>
+    <Navbar />
+    {messages ? (
+      <div className="messages">
+        {messages.map((msg) => (
+          <div key={msg.id} className="p-3">
+            <p><b>{msg.author}</b> {new Date(msg.timestamp).toString()}</p>
+            <p>{msg.content}</p>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="main">
+        <h1>Enter Code</h1>
+        <CodeInput
+          loading={state === 'loading'}
+          fieldWidth={48}
+          fieldHeight={44}
+          onComplete={submitCode}
+          className="mt-4" />
+        {state == 'error' && (
+          <p className="text-danger">Invalid Code.</p>
+        )}
+      </div>
+    )}
+  </>;
 };
 
 export default Archive;
