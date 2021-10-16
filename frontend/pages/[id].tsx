@@ -58,7 +58,7 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
   }
 
   return <>
-    <Navbar />
+    <Navbar title={messages ? `${name} Archive` : 'Login'} />
     {messages ? (
       <div className="messages">
         {messages.map((msg) => (
