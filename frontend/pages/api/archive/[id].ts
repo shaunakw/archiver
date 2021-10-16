@@ -24,7 +24,7 @@ const handler: NextApiHandler = async (req, res) => {
   const id = req.query.id as string;
   if (req.method == 'POST') {
     const body = JSON.parse(req.body);
-    if (validateCode(body.code)) {
+    if (process.env.NODE_ENV === 'development' || validateCode(body.code)) {
       initFirebase();
 
       const query = await admin.firestore().collection(id).orderBy('timestamp', 'desc').get();
