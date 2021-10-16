@@ -12,8 +12,8 @@ export function init(): void {
 }
 
 export async function uploadMessage(msg: Message | PartialMessage): Promise<void> {
-    msg = await msg.fetch();
-    await admin.firestore().collection('messages').doc(msg.id).create({
+    if (!msg.guildId || !msg.content) return;
+    await admin.firestore().collection(msg.guildId).doc(msg.id).create({
         author: msg.author?.tag,
         content: msg.content,
         timestamp: msg.createdTimestamp
