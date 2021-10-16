@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Securely archive deleted messages in Discord.",
   "scripts": {
-    "start": "tsc && node build/bot.js"
+    "start": "tsc && node build/bot.js",
+    "dev": "nodemon src/bot.ts"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,8 @@
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "eslint": "^7.32.0",
+    "nodemon": "^2.0.13",
+    "ts-node": "^10.3.0",
     "typescript": "^4.4.3"
   }
 }
