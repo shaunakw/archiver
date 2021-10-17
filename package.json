@@ -4,7 +4,7 @@
   "description": "Securely archive deleted messages in Discord.",
   "scripts": {
     "dev": "nodemon src/bot.ts",
-    "prod": "tsc && pm2 restart build/bot.js"
+    "prod": "tsc && node build/bot.js"
   },
   "repository": {
     "type": "git",
