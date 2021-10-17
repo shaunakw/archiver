@@ -17,15 +17,20 @@ type Message = User & {
 
 const otp = new TOTP({ secret: process.env.OTP_SECRET });
 
-function validateCode(code: string): boolean {
-  return otp.generate() === code;
+function validateCode(code: string, window: number): boolean {
+  for (let i = 0; i < window; i++) {
+    if (otp.generate({ timestamp: Date.now() - otp.period * 1000 * i }) === code) {
+      return true;
+    }
+  }
+  return false;
 }
 
 const handler: NextApiHandler = async (req, res) => {
   const id = req.query.id as string;
   if (req.method == 'POST') {
     const body = JSON.parse(req.body);
-    if (process.env.NODE_ENV === 'development' || validateCode(body.code)) {
+    if (process.env.NODE_ENV === 'development' || validateCode(body.code, 2)) {
       firebase.init();
 
       const query = await admin.firestore().collection(id).orderBy('timestamp', 'desc').get();
