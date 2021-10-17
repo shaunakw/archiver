@@ -67,7 +67,7 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
           <div key={msg.id} className="p-3 d-flex">
             <Image src={msg.avatar} width={50} height={50} alt="Avatar" />
             <div className="ms-3">
-              <p><b>{msg.author}</b> {new Date(msg.timestamp).toString()}</p>
+              <p><b>{msg.author}</b> {new Date(msg.timestamp).toLocaleString()}</p>
               <p>{msg.content}</p>
             </div>
           </div>
