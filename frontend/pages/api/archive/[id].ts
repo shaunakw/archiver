@@ -41,9 +41,13 @@ const handler: NextApiHandler = async (req, res) => {
         const { authorId, content, timestamp } = i.data();
         if (!userCache.has(authorId)) {
           const user = await discord.api(`/users/${authorId}`);
+          const avatarEndpoint = user.avatar
+            ? `/avatars/${user.id}/${user.avatar}.png`
+            : `/embed/avatars/${parseInt(user.discriminator) % 5}.png`;
+          
           userCache.set(authorId, {
             author: `${user.username}#${user.discriminator}`,
-            avatar: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`,
+            avatar: `https://cdn.discordapp.com${avatarEndpoint}`,
           });
         }
         messages.push({
