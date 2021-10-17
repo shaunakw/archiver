@@ -32,7 +32,7 @@ client.once('ready', async () => {
     await registerCommands();
     console.log('Commands registered!');
 
-    client.user?.setActivity('/archive to get archive link.');
+    client.user?.setActivity('/archive');
     console.log('Activity set!');
 });
 
