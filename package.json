@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Securely archive deleted messages in Discord.",
   "scripts": {
-    "start": "tsc && node build/bot.js",
-    "dev": "nodemon src/bot.ts"
+    "dev": "nodemon src/bot.ts",
+    "prod": "tsc && pm2 restart build/bot.js"
   },
   "repository": {
     "type": "git",
