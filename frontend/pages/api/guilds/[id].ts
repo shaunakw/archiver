@@ -1,15 +1,9 @@
 import type { NextApiHandler } from 'next';
+import * as discord from 'util/discord';
 
 const handler: NextApiHandler = async (req, res) => {
   const id = req.query.id as string;
-  const guild = await fetch(`https://discord.com/api/v9/guilds/${id}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bot ${process.env.DISCORD_TOKEN}`,
-      'User-Agent': 'DiscordBot',
-    },
-  });
-  res.status(200).send(await guild.json());
+  res.status(200).send(await discord.api(`/guilds/${id}`));
 };
 
 export default handler;

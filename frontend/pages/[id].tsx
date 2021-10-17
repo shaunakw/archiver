@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CodeInput from 'react-verification-code-input';
 import { useState } from 'react';
@@ -13,6 +14,7 @@ type AuthState = 'ready' | 'loading' | 'error';
 type Message = {
   id: string,
   author: string,
+  avatar: string,
   content: string,
   timestamp: number,
 };
@@ -58,13 +60,16 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
   }
 
   return <>
-    <Navbar title={messages ? `${name} Archive` : 'Login'} />
+    <Navbar title={`${name} Archive`} />
     {messages ? (
       <div className="messages">
         {messages.map((msg) => (
-          <div key={msg.id} className="p-3">
-            <p><b>{msg.author}</b> {new Date(msg.timestamp).toString()}</p>
-            <p>{msg.content}</p>
+          <div key={msg.id} className="p-3 d-flex">
+            <Image src={msg.avatar} width={50} height={50} alt="Avatar" />
+            <div className="ms-3">
+              <p><b>{msg.author}</b> {new Date(msg.timestamp).toString()}</p>
+              <p>{msg.content}</p>
+            </div>
           </div>
         ))}
       </div>
