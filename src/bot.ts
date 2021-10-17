@@ -28,8 +28,12 @@ async function registerCommands() {
 
 client.once('ready', async () => {
     console.log(`${client.user?.tag} ready!`);
+
     await registerCommands();
     console.log('Commands registered!');
+
+    client.user?.setActivity('/archive to get archive link.');
+    console.log('Activity set!');
 });
 
 client.on('messageDelete', async (msg) => {
