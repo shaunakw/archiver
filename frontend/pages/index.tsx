@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 
 const Home: NextPage = () => {
   return <>
-    <Navbar title="Home" />
+    <Navbar title="Archiver" />
     <div className="main">
       <h1>Archiver</h1>
       <p className="lead">Securely archive deleted messages in Discord.</p>
