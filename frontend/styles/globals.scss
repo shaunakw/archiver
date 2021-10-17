@@ -1,0 +1,32 @@
+$primary: #2e86de;
+$secondary: #5865f2;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+html {
+  height: 100%;
+}
+
+body {
+  @extend .text-light;
+  @extend .bg-dark;
+}
+
+.main {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  * {
+    font-family: revert !important;
+  }
+}
+
+.messages {
+  margin-top: 56px;
+
+  p {
+    margin: 0;
+  }
+}

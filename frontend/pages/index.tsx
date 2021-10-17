@@ -9,7 +9,7 @@ const Home: NextPage = () => {
       <h1>Archiver</h1>
       <p className="lead">Securely archive deleted messages in Discord.</p>
       <Button
-        variant="primary"
+        variant="secondary"
         href="https://discord.com/api/oauth2/authorize?client_id=897166166269767731&permissions=8&scope=bot%20applications.commands"
         target="_blank"
         className="mt-5">
