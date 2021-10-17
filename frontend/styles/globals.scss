@@ -1,6 +1,10 @@
+$google-font: Poppins;
+
 $primary: #2e86de;
 $secondary: #5865f2;
+$font-family-base: $google-font, sans-serif;
 
+@import url("https://fonts.googleapis.com/css2?family=#{$google-font}:wght@200;300;400;500;600;700;800;900");
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 html {
@@ -19,7 +23,7 @@ body {
   align-items: center;
 
   * {
-    font-family: revert !important;
+    font-family: $font-family-base !important;
   }
 }
 
