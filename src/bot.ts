@@ -41,7 +41,7 @@ client.on('messageDelete', async (msg) => {
 });
 
 client.on('interactionCreate', async (interaction) => {
-    if (!interaction.isCommand() || !interaction.guild) return;
+    if (!interaction || !interaction.isCommand() || !interaction.guild) return;
 
     if (interaction.commandName === 'archive') {
         await interaction.reply(`Archive: ${archiveUrl}/${interaction.guildId}`);
