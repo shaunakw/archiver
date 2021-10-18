@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   return <>
     <Navbar title="" />
     <Flex mt={28} mx={4} direction="column" align="center" textAlign="center">
-      <Heading size="2xl" fontWeight="medium">Archiver</Heading>
+      <Heading size="2xl" fontWeight="semibold">Archiver</Heading>
       <Text mt={8} fontSize="xl">Securely archive deleted messages in Discord.</Text>
       <Button as="a" mt={20} href={oauthUrl} target="_blank" bgColor="discord">Add to Discord</Button>
     </Flex>
