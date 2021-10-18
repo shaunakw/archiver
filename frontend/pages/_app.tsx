@@ -15,6 +15,12 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
     colors: {
       discord: '#5865f2',
     },
+    textStyles: {
+      detail: {
+        fontSize: 14,
+        fontWeight: 'light',
+      }
+    }
   });
 
   return (

@@ -46,7 +46,7 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
 
   function linkify(href: string, text: string, key: number) {
     return (
-      <Link href={href} key={key} isExternal>{text}</Link>
+      <Link href={href} key={key} color="blue.300" isExternal>{text}</Link>
     );
   }
 
@@ -69,17 +69,22 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
     <Navbar title={`${name} Archive`} />
     {messages ? (
       <Box mt={20} mb={4} mx={4}>
-        <Linkify componentDecorator={linkify}>
-          {messages.map((msg) => (
-            <Flex key={msg.id} mt={6} align="start">
-              <Avatar name={msg.author} src={msg.avatar} bg="transparent" />
-              <Box ms={4}>
-                <p><b>{msg.author}</b> {new Date(msg.timestamp).toLocaleString()}</p>
-                <p>{msg.content}</p>
-              </Box>
-            </Flex>
-          ))}
-        </Linkify>
+        {messages.map((msg) => (
+          <Flex key={msg.id} mt={6} align="start">
+            <Avatar name={msg.author} src={msg.avatar} bg="transparent" />
+            <Box ms={4}>
+              <p>
+                <b>{msg.author}</b>
+                <Text as="span" textStyle="detail" color="gray.400" ms={4}>
+                  {new Date(msg.timestamp).toLocaleString()}
+                </Text>
+              </p>
+              <p>
+                <Linkify componentDecorator={linkify}>{msg.content}</Linkify>
+              </p>
+            </Box>
+          </Flex>
+        ))}
       </Box>
     ) : (
       <Flex mt={28} mx={4} direction="column" align="center" textAlign="center">
