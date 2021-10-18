@@ -1,4 +1,4 @@
-import { Client, Intents } from 'discord.js';
+import { Client, Intents, Message, TextChannel } from 'discord.js';
 import * as dotenv from 'dotenv';
 import path from 'path';
 import WOKCommands from 'wokcommands';
@@ -25,10 +25,15 @@ client.once('ready', async () => {
     client.user?.setActivity('/archive');
 });
 
+client.on('guildCreate', async (guild) => {
+    console.log(`Joined ${guild.name}!`);
+    await firebase.setupGuild(guild);
+    console.log(`Setup ${guild.name}!`);
+});
+
 client.on('messageDelete', async (msg) => {
-    if (msg.guildId && msg.content) {
-        await firebase.uploadMessage(msg);
-        console.log('Uploaded to Firebase!');
+    if (msg.channel instanceof TextChannel && msg.content) {
+        await firebase.uploadMessage(msg as Message);
     }
 });
 
