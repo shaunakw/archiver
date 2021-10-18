@@ -1,7 +1,6 @@
+import { Avatar, Box, CircularProgress, Flex, Heading, HStack, PinInput, PinInputField, Text } from '@chakra-ui/react';
 import { GetServerSideProps, NextPage } from 'next';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import CodeInput from 'react-verification-code-input';
 import { useState } from 'react';
 import Navbar from 'components/Navbar';
 
@@ -54,7 +53,7 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
     if (res.status === 200) {
       setState('ready');
       setMessages(await res.json());
-    } else {
+    } else if (res.status === 401) {
       setState('error');
     }
   }
@@ -62,30 +61,46 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
   return <>
     <Navbar title={`${name} Archive`} />
     {messages ? (
-      <div className="messages">
+      <Box mt={20} mb={4} mx={4}>
         {messages.map((msg) => (
-          <div key={msg.id} className="p-3 d-flex">
-            <Image src={msg.avatar} width={50} height={50} alt="Avatar" />
-            <div className="ms-3">
+          <Flex key={msg.id} mt={6} align="start">
+            <Avatar name={msg.author} src={msg.avatar} bg="transparent" />
+            <Box ms={4}>
               <p><b>{msg.author}</b> {new Date(msg.timestamp).toLocaleString()}</p>
               <p>{msg.content}</p>
-            </div>
-          </div>
+            </Box>
+          </Flex>
         ))}
-      </div>
+      </Box>
     ) : (
-      <div className="main">
-        <h1>Enter Code</h1>
-        <CodeInput
-          loading={state === 'loading'}
-          fieldWidth={48}
-          fieldHeight={44}
-          onComplete={submitCode}
-          className="mt-4" />
-        {state == 'error' && (
-          <p className="text-danger">Invalid Code.</p>
+      <Flex mt={28} mx={4} direction="column" align="center" textAlign="center">
+        <Heading size="2xl" fontWeight="medium">Enter Code</Heading>
+        <HStack mt={8}>
+          <PinInput otp placeholder="" isDisabled={state === 'loading'} onComplete={submitCode}>
+            <PinInputField />
+            <PinInputField />
+            <PinInputField />
+            <PinInputField />
+            <PinInputField />
+            <PinInputField />
+          </PinInput>
+          {state === 'loading' && (
+            <CircularProgress
+              m="0 !important"
+              size={6}
+              left="50%"
+              transform="translate(-50%, 0)"
+              color="white"
+              trackColor="transparent"
+              position="absolute"
+              isIndeterminate
+            />
+          )}
+        </HStack>
+        {state === 'error' && (
+          <Text mt={4} color="red.300">Invalid Code.</Text>
         )}
-      </div>
+      </Flex>
     )}
   </>;
 };
