@@ -1,23 +1,9 @@
-import * as admin from 'firebase-admin';
 import type { NextApiHandler } from 'next';
-import { TOTP } from 'otpauth';
-import * as discord from 'util/discord';
 import * as firebase from 'util/firebase';
 
-type User = {
-  author: string,
-  avatar: string,
-}
+async function validateCode(id: string, code: string, window: number): Promise<boolean> {
+  const otp = await firebase.getOTP(id);
 
-type Message = User & {
-  id: string,
-  content: string,
-  timestamp: number,
-}
-
-const otp = new TOTP({ secret: process.env.OTP_SECRET });
-
-function validateCode(code: string, window: number): boolean {
   for (let i = 0; i < window; i++) {
     if (otp.generate({ timestamp: Date.now() - otp.period * 1000 * i }) === code) {
       return true;
@@ -29,36 +15,11 @@ function validateCode(code: string, window: number): boolean {
 const handler: NextApiHandler = async (req, res) => {
   const id = req.query.id as string;
   if (req.method == 'POST') {
-    const body = JSON.parse(req.body);
-    if (process.env.NODE_ENV === 'development' || validateCode(body.code, 2)) {
-      firebase.init();
-
-      const query = await admin.firestore().collection(id).orderBy('timestamp', 'desc').get();
-      const userCache = new Map<string, User>();
-      const messages: Message[] = [];
-
-      for (const i of query.docs) {
-        const { authorId, content, timestamp } = i.data();
-        if (!userCache.has(authorId)) {
-          const user = await discord.api(`/users/${authorId}`);
-          const avatarEndpoint = user.avatar
-            ? `/avatars/${user.id}/${user.avatar}.png`
-            : `/embed/avatars/${parseInt(user.discriminator) % 5}.png`;
-          
-          userCache.set(authorId, {
-            author: `${user.username}#${user.discriminator}`,
-            avatar: `https://cdn.discordapp.com${avatarEndpoint}`,
-          });
-        }
-        messages.push({
-          ...userCache.get(authorId) as User,
-          id: i.id,
-          content,
-          timestamp,
-        });
-      }
-
-      res.status(200).send(messages);
+    firebase.init();
+    
+    const { code } = JSON.parse(req.body);
+    if (await validateCode(id, code, 2)) {
+      res.status(200).send(await firebase.getMessages(id));
     } else {
       res.status(401).end();
     }
