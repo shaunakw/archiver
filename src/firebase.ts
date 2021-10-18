@@ -1,4 +1,4 @@
-import type { Message, PartialMessage } from 'discord.js';
+import type { Message, PartialMessage, TextChannel } from 'discord.js';
 import * as admin from 'firebase-admin';
 
 export function init(): void {
@@ -12,10 +12,10 @@ export function init(): void {
 }
 
 export async function uploadMessage(msg: Message | PartialMessage): Promise<void> {
-    if (!msg.guildId || !msg.content) return;
-    await admin.firestore().collection(msg.guildId).doc(msg.id).create({
+    await admin.firestore().collection(msg.guildId ?? '').doc(msg.id).create({
         author: msg.author?.tag,
         authorId: msg.author?.id,
+        channel: (msg.channel as TextChannel).name,
         content: msg.content,
         timestamp: msg.createdTimestamp
     });
