@@ -16,7 +16,7 @@ export async function uploadMessage(msg: Message | PartialMessage): Promise<void
         author: msg.author?.tag,
         authorId: msg.author?.id,
         channel: (msg.channel as TextChannel).name,
-        content: msg.content,
+        content: msg.cleanContent,
         timestamp: msg.createdTimestamp
     });
 }
