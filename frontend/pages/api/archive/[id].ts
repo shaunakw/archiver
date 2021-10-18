@@ -1,5 +1,5 @@
 import type { NextApiHandler } from 'next';
-import * as firebase from 'util/firebase';
+import * as firebase from '../../../util/firebase';
 
 async function validateCode(id: string, code: string, window: number): Promise<boolean> {
   const otp = await firebase.getOTP(id);

@@ -1,10 +1,10 @@
 import { Avatar, Box, CircularProgress, Flex, Heading, HStack, Link, PinInput, PinInputField, Text } from '@chakra-ui/react';
 import { format } from 'date-fns';
-import { GetServerSideProps, NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Linkify from 'react-linkify';
-import Navbar from 'components/Navbar';
+import Navbar from '../components/Navbar';
 
 type ArchiveProps = {
   name: string,
@@ -22,7 +22,7 @@ type Message = {
 
 const url = process.env.NODE_ENV === 'production' ? 'https://archiver.vercel.app' : 'http://localhost:3000';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<ArchiveProps> = async (context) => {
   const res = await fetch(`${url}/api/guilds/${context.params?.id}`);
   const json = await res.json();
   if (json.name) {

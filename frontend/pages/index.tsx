@@ -1,6 +1,6 @@
 import { Button, Flex, Heading, Text } from '@chakra-ui/react';
 import type { NextPage } from 'next';
-import Navbar from 'components/Navbar';
+import Navbar from '../components/Navbar';
 
 const Home: NextPage = () => {
   const oauthUrl = 'https://discord.com/api/oauth2/authorize?client_id=897166166269767731&permissions=8&scope=bot%20applications.commands';
