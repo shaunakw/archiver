@@ -1,7 +1,8 @@
-import { Avatar, Box, CircularProgress, Flex, Heading, HStack, PinInput, PinInputField, Text } from '@chakra-ui/react';
+import { Avatar, Box, CircularProgress, Flex, Heading, HStack, Link, PinInput, PinInputField, Text } from '@chakra-ui/react';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import Linkify from 'react-linkify';
 import Navbar from 'components/Navbar';
 
 type ArchiveProps = {
@@ -43,6 +44,12 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
   const [state, setState] = useState<AuthState>('ready');
   const [messages, setMessages] = useState<Message[]>();
 
+  function linkify(href: string, text: string, key: number) {
+    return (
+      <Link href={href} key={key} isExternal>{text}</Link>
+    );
+  }
+
   async function submitCode(code: string) {
     setState('loading');
     const res = await fetch(`/api/archive/${id}`, {
@@ -62,15 +69,17 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
     <Navbar title={`${name} Archive`} />
     {messages ? (
       <Box mt={20} mb={4} mx={4}>
-        {messages.map((msg) => (
-          <Flex key={msg.id} mt={6} align="start">
-            <Avatar name={msg.author} src={msg.avatar} bg="transparent" />
-            <Box ms={4}>
-              <p><b>{msg.author}</b> {new Date(msg.timestamp).toLocaleString()}</p>
-              <p>{msg.content}</p>
-            </Box>
-          </Flex>
-        ))}
+        <Linkify componentDecorator={linkify}>
+          {messages.map((msg) => (
+            <Flex key={msg.id} mt={6} align="start">
+              <Avatar name={msg.author} src={msg.avatar} bg="transparent" />
+              <Box ms={4}>
+                <p><b>{msg.author}</b> {new Date(msg.timestamp).toLocaleString()}</p>
+                <p>{msg.content}</p>
+              </Box>
+            </Flex>
+          ))}
+        </Linkify>
       </Box>
     ) : (
       <Flex mt={28} mx={4} direction="column" align="center" textAlign="center">
