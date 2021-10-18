@@ -1,4 +1,5 @@
 import { Avatar, Box, CircularProgress, Flex, Heading, HStack, Link, PinInput, PinInputField, Text } from '@chakra-ui/react';
+import { format } from 'date-fns';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -76,7 +77,7 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
               <p>
                 <b>{msg.author}</b>
                 <Text as="span" textStyle="detail" color="gray.400" ms={4}>
-                  {new Date(msg.timestamp).toLocaleString()}
+                  {format(new Date(msg.timestamp), 'P \'at\' p')}
                 </Text>
               </p>
               <p>
