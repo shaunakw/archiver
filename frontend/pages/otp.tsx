@@ -35,9 +35,9 @@ const OTP: NextPage = () => {
       {validateSecret() ? (
         <>
           <Text fontSize="xl">Scan the below QR code with a two-factor authenticator app like Google Authenticator.</Text>
-          <Box mt={8} p={4} bgColor="white" borderRadius="1rem">
+          <Box mt={16} p={4} bgColor="white" borderRadius="1rem">
             <QRCode value={getUri()} size={240} />
-          </Box>]
+          </Box>
         </>
       ) : (
         <>
