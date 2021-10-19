@@ -30,6 +30,11 @@ export async function setupGuild(guild: Guild): Promise<void> {
     });
 }
 
+export async function getSecret(id: string): Promise<string> {
+    const doc = await admin.firestore().collection(id).doc('key').get();
+    return doc.get('secret');
+  }
+
 export async function uploadMessage(msg: Message): Promise<void> {
     await admin.firestore().collection(msg.guildId ?? '').doc(msg.id).create({
         author: msg.author.tag,
