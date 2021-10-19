@@ -4,7 +4,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Linkify from 'react-linkify';
-import Navbar from '../components/Navbar';
+import Navbar from '../../components/Navbar';
 
 type ArchiveProps = {
   name: string,

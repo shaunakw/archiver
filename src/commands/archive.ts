@@ -5,7 +5,7 @@ const command: ICommand = {
     description: 'Gets the link to the server archive.',
     slash: true,
     callback: ({ interaction }) => {
-        return `Archive: https://archiver.vercel.app/${interaction.guildId}`;
+        return `Archive: https://archiver.vercel.app/archive/${interaction.guildId}`;
     },
 };
 
