@@ -18,6 +18,7 @@ client.once('ready', async () => {
     console.log(`${client.user?.tag} ready!`);
 
     new WOKCommands(client, {
+        botOwners: process.env.DISCORD_OWNER,
         commandsDir: path.join(__dirname, 'commands'),
         typeScript: process.env.TS_NODE === 'true',
     });
