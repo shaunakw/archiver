@@ -33,8 +33,16 @@ client.on('guildCreate', async (guild) => {
 });
 
 client.on('messageDelete', async (msg) => {
-    if (msg.channel instanceof TextChannel && msg.content) {
-        await firebase.uploadMessage(msg as Message);
+    if (msg instanceof Message && msg.channel instanceof TextChannel) {
+        await firebase.uploadMessage(msg);
+    }
+});
+
+client.on('messageDeleteBulk', async (msgs) => {
+    for (const msg of msgs.values()) {
+        if (msg instanceof Message && msg.channel instanceof TextChannel) {
+            await firebase.uploadMessage(msg);
+        }
     }
 });
 
