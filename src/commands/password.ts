@@ -7,19 +7,15 @@ const command: ICommand = {
     description: 'Gives access to the archive password.',
     slash: true,
     guildOnly: true,
+    requiredPermissions: ['MANAGE_MESSAGES'],
     async callback({ interaction }) {
-        if (interaction.memberPermissions?.has('MANAGE_MESSAGES')) {
-            await interaction.deferReply({ ephemeral: true });
-            const guild = interaction.guild as Guild;
-            const secret = await firebase.getSecret(guild.id);
-            await interaction.editReply(
-                encodeURI(`https://archiver.vercel.app/otp?secret=${secret}&account=${guild.name}`));
-        } else {
-            await interaction.reply({
-                content: 'You need the Manage Messages permission to perform this command.',
-                ephemeral: true,
-            });
-        }
+        await interaction.deferReply({ ephemeral: true });
+
+        const guild = interaction.guild as Guild;
+        const secret = await firebase.getSecret(guild.id);
+        const uri = `https://archiver.vercel.app/otp?secret=${secret}&account=${guild.name}`;
+
+        await interaction.editReply(encodeURI(uri));
     },
 };
 
