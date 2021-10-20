@@ -22,6 +22,10 @@ export function init(): void {
             privateKey: process.env.FIREBASE_PRIVATE_KEY,
         }),
     });
+
+    admin.firestore().settings({
+        ignoreUndefinedProperties: true,
+    });
 }
 
 export async function setupGuild(guild: Guild): Promise<void> {
@@ -33,14 +37,20 @@ export async function setupGuild(guild: Guild): Promise<void> {
 export async function getSecret(id: string): Promise<string> {
     const doc = await admin.firestore().collection(id).doc('key').get();
     return doc.get('secret');
-  }
+}
 
 export async function uploadMessage(msg: Message): Promise<void> {
+    const attachment = msg.attachments.first();
     await admin.firestore().collection(msg.guildId ?? '').doc(msg.id).create({
         author: msg.author.tag,
         authorId: msg.author.id,
         channel: (msg.channel as TextChannel).name,
         content: msg.cleanContent,
-        timestamp: msg.createdTimestamp
+        timestamp: msg.createdTimestamp,
+        attachment: attachment ? {
+            name: attachment.name,
+            url: attachment.url,
+            contentType: attachment.contentType,
+        } : undefined,
     });
 }
