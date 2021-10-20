@@ -9,14 +9,13 @@ const command: ICommand = {
     guildOnly: true,
     async callback({ interaction }) {
         if (interaction.memberPermissions?.has('MANAGE_MESSAGES')) {
+            await interaction.deferReply({ ephemeral: true });
             const guild = interaction.guild as Guild;
             const secret = await firebase.getSecret(guild.id);
-            interaction.reply({
-                content: encodeURI(`https://archiver.vercel.app/otp?secret=${secret}&account=${guild.name}`),
-                ephemeral: true,
-            });
+            await interaction.editReply(
+                encodeURI(`https://archiver.vercel.app/otp?secret=${secret}&account=${guild.name}`));
         } else {
-            interaction.reply({
+            await interaction.reply({
                 content: 'You need the Manage Messages permission to perform this command.',
                 ephemeral: true,
             });
