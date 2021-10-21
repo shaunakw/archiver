@@ -45,6 +45,7 @@ export async function uploadMessage(msg: Message): Promise<void> {
         author: msg.author.tag,
         authorId: msg.author.id,
         channel: (msg.channel as TextChannel).name,
+        channelId: msg.channelId,
         content: msg.cleanContent,
         timestamp: msg.createdTimestamp,
         attachment: attachment ? {
