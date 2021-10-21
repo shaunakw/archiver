@@ -29,7 +29,7 @@ export function init(): void {
 }
 
 export async function setupGuild(guild: Guild): Promise<void> {
-    await admin.firestore().collection(guild.id).doc('key').set({
+    await admin.firestore().collection(guild.id).doc('key').create({
         secret: generateSecret(),
     });
 }

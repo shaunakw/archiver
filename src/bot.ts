@@ -28,8 +28,12 @@ client.once('ready', async () => {
 
 client.on('guildCreate', async (guild) => {
     console.log(`Joined ${guild.name}!`);
-    await firebase.setupGuild(guild);
-    console.log(`Setup ${guild.name}!`);
+    try {
+        await firebase.setupGuild(guild);
+        console.log(`Setup ${guild.name}!`);
+    } catch {
+        console.log(`${guild.name} already setup`);
+    }
 });
 
 client.on('messageDelete', async (msg) => {
