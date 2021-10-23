@@ -18,7 +18,7 @@ const handler: NextApiHandler = async (req, res) => {
     firebase.init();
     
     const { code } = JSON.parse(req.body);
-    if (await validateCode(id, code, 2)) {
+    if (process.env.NODE_ENV === 'development' || await validateCode(id, code, 2)) {
       res.status(200).send(await firebase.getMessages(id));
     } else {
       res.status(401).end();

@@ -1,4 +1,6 @@
-import { Avatar, Box, CircularProgress, Flex, Heading, HStack, Link, PinInput, PinInputField, Text } from '@chakra-ui/react';
+import { Avatar, Box, CircularProgress, Flex, Heading, HStack, Icon, Link, PinInput, PinInputField, Text } from '@chakra-ui/react';
+import { faFile, faFileAlt, faFileArchive, faFileAudio, faFileExcel, faFileImage, faFilePdf, faFilePowerpoint, faFileVideo, faFileWord } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
 import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -17,6 +19,11 @@ type Message = {
   author: string,
   avatar: string,
   content: string,
+  attachment?: {
+    name: string,
+    url: string
+    contentType: string,
+  },
   timestamp: number,
 };
 
@@ -51,6 +58,29 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
     );
   }
 
+  function getFileIcon(contentType: string) {
+    if (['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(contentType)) {
+      return faFileWord;
+    } else if (['application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'].includes(contentType)) {
+      return faFilePowerpoint;
+    } else if (['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(contentType)) {
+      return faFileExcel;
+    } else if (contentType === 'application/zip') {
+      return faFileArchive;
+    } else if (contentType === 'application/pdf') {
+      return faFilePdf;
+    } else if (contentType.startsWith('video/')) {
+      return faFileVideo;
+    } else if (contentType.startsWith('image/')) {
+      return faFileImage;
+    } else if (contentType.startsWith('audio/')) {
+      return faFileAudio;
+    } else if (contentType.startsWith('text/')) {
+      return faFileAlt;
+    }
+    return faFile;
+  }
+
   async function submitCode(code: string) {
     setState('loading');
     const res = await fetch(`/api/archive/${id}`, {
@@ -83,6 +113,12 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
               <p>
                 <Linkify componentDecorator={linkify}>{msg.content}</Linkify>
               </p>
+              {msg.attachment && (
+                <Box mt={2} px={2.5} py={1.5} borderWidth={2} rounded="lg" w="fit-content">
+                  <Icon as={FontAwesomeIcon} me={2} icon={getFileIcon(msg.attachment.contentType)} />
+                  <Link href={msg.attachment.url} isExternal>{msg.attachment.name}</Link>
+                </Box>
+              )}
             </Box>
           </Flex>
         ))}

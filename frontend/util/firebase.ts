@@ -7,13 +7,6 @@ type User = {
   avatar: string,
 }
 
-type Message = User & {
-  id: string,
-  channel: string,
-  content: string,
-  timestamp: number,
-}
-
 export function init(): void {
   if (!admin.apps.length) {
     admin.initializeApp({
@@ -31,13 +24,13 @@ export async function getOTP(id: string): Promise<TOTP> {
   return new TOTP({ secret: doc.get('secret') });
 }
 
-export async function getMessages(id: string): Promise<Message[]> {
+export async function getMessages(id: string): Promise<Record<string, string>[]> {
   const collection = await admin.firestore().collection(id).orderBy('timestamp', 'desc').get();
   const userCache = new Map<string, User>();
-  const messages: Message[] = [];
+  const messages: Record<string, string>[] = [];
 
-  for (const i of collection.docs) {
-    const { authorId, content, channel, timestamp } = i.data();
+  for (const doc of collection.docs) {
+    const { authorId, ...data } = doc.data();
     if (!userCache.has(authorId)) {
       const user = await discord.api(`/users/${authorId}`);
       const avatarEndpoint = user.avatar
@@ -50,11 +43,9 @@ export async function getMessages(id: string): Promise<Message[]> {
       });
     }
     messages.push({
+      id: doc.id,
       ...userCache.get(authorId) as User,
-      id: i.id,
-      channel,
-      content,
-      timestamp,
+      ...data,
     });
   }
 
