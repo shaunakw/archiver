@@ -18,6 +18,7 @@ type Message = {
   id: string,
   author: string,
   avatar: string,
+  channel: string,
   content: string,
   attachment?: {
     name: string,
@@ -112,6 +113,9 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
                 <b>{msg.author}</b>
                 <Text as="span" textStyle="detail" color="gray.400" ms={4}>
                   {format(new Date(msg.timestamp), 'P \'at\' p')}
+                </Text>
+                <Text as="span" textStyle="detail" color="gray.400" ms={4}>
+                  #{msg.channel}
                 </Text>
               </p>
               <p>
