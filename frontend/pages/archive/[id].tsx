@@ -21,7 +21,6 @@ type Message = {
   content: string,
   attachment?: {
     name: string,
-    url: string
     contentType: string,
   },
   timestamp: number,
@@ -81,6 +80,11 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
     return faFile;
   }
 
+  function getFileUrl(msg: Message) {
+    const name = encodeURI(msg.attachment?.name ?? '');
+    return `https://firebasestorage.googleapis.com/v0/b/archiver-discord.appspot.com/o/${msg.id}%2F${name}?alt=media`;
+  }
+
   async function submitCode(code: string) {
     setState('loading');
     const res = await fetch(`/api/archive/${id}`, {
@@ -116,7 +120,7 @@ const Archive: NextPage<ArchiveProps> = ({ name }) => {
               {msg.attachment && (
                 <Box mt={2} px={2.5} py={1.5} borderWidth={2} rounded="lg" w="fit-content">
                   <Icon as={FontAwesomeIcon} me={2} icon={getFileIcon(msg.attachment.contentType)} />
-                  <Link href={msg.attachment.url} isExternal>{msg.attachment.name}</Link>
+                  <Link href={getFileUrl(msg)} isExternal>{msg.attachment.name}</Link>
                 </Box>
               )}
             </Box>

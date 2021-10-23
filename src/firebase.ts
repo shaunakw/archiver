@@ -1,3 +1,4 @@
+import axios from 'axios';
 import crypto from 'crypto';
 import type { Guild, Message, TextChannel } from 'discord.js';
 import * as admin from 'firebase-admin';
@@ -21,6 +22,7 @@ export function init(): void {
             clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
             privateKey: process.env.FIREBASE_PRIVATE_KEY,
         }),
+        storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     });
 
     admin.firestore().settings({
@@ -50,8 +52,11 @@ export async function uploadMessage(msg: Message): Promise<void> {
         timestamp: msg.createdTimestamp,
         attachment: attachment ? {
             name: attachment.name,
-            url: attachment.url,
             contentType: attachment.contentType,
         } : undefined,
     });
+    if (attachment) {
+        const res = await axios.get<ArrayBuffer>(attachment.url, { responseType: 'arraybuffer' });
+        admin.storage().bucket().file(`${msg.id}/${attachment.name}`).save(Buffer.from(res.data));
+    }
 }
