@@ -6,7 +6,10 @@ const command: ICommand = {
     slash: true,
     guildOnly: true,
     callback({ interaction }) {
-        interaction.reply(`https://archiver.vercel.app/archive/${interaction.guildId}`);
+        interaction.reply({
+            content: `Access the archive at https://archiver.vercel.app/archive/${interaction.guildId}`,
+            ephemeral: true,
+        });
     },
 };
 

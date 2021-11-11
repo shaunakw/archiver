@@ -13,7 +13,7 @@ const command: ICommand = {
 
         const guild = interaction.guild as Guild;
         const secret = await firebase.getSecret(guild.id);
-        const uri = `https://archiver.vercel.app/otp?secret=${secret}&account=${guild.name}`;
+        const uri = `Access the password generator at https://archiver.vercel.app/otp?secret=${secret}&account=${guild.name}`;
 
         await interaction.editReply(encodeURI(uri));
     },
