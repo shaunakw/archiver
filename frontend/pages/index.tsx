@@ -20,6 +20,10 @@ const Home: NextPage = () => {
 
       <Code mt={8} fontSize="xl" fontWeight="semibold">/password</Code>
       <Text mt={4} textStyle="detail" color="gray.400">Required permissions: Manage Messages</Text>
+      <Text mt={2}>Get the current archive password.</Text>
+
+      <Code mt={8} fontSize="xl" fontWeight="semibold">/passgen</Code>
+      <Text mt={4} textStyle="detail" color="gray.400">Required permissions: Manage Messages</Text>
       <Text mt={2}>Get a link to the password generator (will require a 2-factor authentication app like Google Authenticator).</Text>
     </Flex>
   </>;
