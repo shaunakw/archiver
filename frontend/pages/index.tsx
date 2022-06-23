@@ -7,7 +7,7 @@ const oauthUrl = 'https://discord.com/api/oauth2/authorize?client_id=89716616626
 const Home: NextPage = () => {
   return <>
     <Navbar title="" />
-    <Flex mt={24} mx="auto" p={4} maxWidth={800} direction="column" align="center" textAlign="center">
+    <Flex mt={24} mx="auto" mb={4} p={4} maxWidth={800} direction="column" align="center" textAlign="center">
       <Heading size="2xl" fontWeight="semibold">Archiver</Heading>
 
       <Text mt={8} fontSize="xl">Securely archive deleted messages in Discord.</Text>
